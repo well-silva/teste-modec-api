@@ -1,0 +1,338 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ContractEntity } from '../../../modules/contracts/entity/contract.entity';
+
+@Injectable()
+export class ContractSeeder {
+  constructor(
+    @InjectRepository(ContractEntity)
+    private readonly contractRepository: Repository<ContractEntity>,
+  ) {}
+
+  async seed() {
+    // Verifica se já existem dados
+    const count = await this.contractRepository.count();
+    if (count > 0) {
+      console.log('Dados já existem no banco. Seed não executado.');
+      return;
+    }
+
+    const contracts = [
+      {
+        supplier: 'Petrobras S.A.',
+        status: 'active',
+        amount: 15000000.0,
+        category: 'Oil & Gas',
+        startDate: new Date('2024-01-15'),
+        endDate: new Date('2026-01-15'),
+        description:
+          'Contrato de fornecimento de petróleo bruto para refinarias',
+        responsible: 'João Silva',
+      },
+      {
+        supplier: 'Vale S.A.',
+        status: 'active',
+        amount: 8500000.0,
+        category: 'Mining',
+        startDate: new Date('2024-03-01'),
+        endDate: new Date('2025-12-31'),
+        description: 'Fornecimento de minério de ferro para produção de aço',
+        responsible: 'Maria Santos',
+      },
+      {
+        supplier: 'Embraer S.A.',
+        status: 'pending',
+        amount: 25000000.0,
+        category: 'Aerospace',
+        startDate: new Date('2024-06-01'),
+        endDate: new Date('2027-06-01'),
+        description: 'Desenvolvimento e fornecimento de aeronaves executivas',
+        responsible: 'Carlos Oliveira',
+      },
+      {
+        supplier: 'Gerdau S.A.',
+        status: 'active',
+        amount: 12000000.0,
+        category: 'Steel',
+        startDate: new Date('2024-02-01'),
+        endDate: new Date('2025-11-30'),
+        description: 'Fornecimento de aço estrutural para construção civil',
+        responsible: 'Ana Costa',
+      },
+      {
+        supplier: 'JBS S.A.',
+        status: 'completed',
+        amount: 5500000.0,
+        category: 'Food',
+        startDate: new Date('2023-01-01'),
+        endDate: new Date('2023-12-31'),
+        description: 'Fornecimento de produtos cárneos para exportação',
+        responsible: 'Pedro Almeida',
+      },
+      {
+        supplier: 'Suzano S.A.',
+        status: 'active',
+        amount: 9800000.0,
+        category: 'Pulp & Paper',
+        startDate: new Date('2024-04-01'),
+        endDate: new Date('2026-03-31'),
+        description: 'Fornecimento de celulose para indústria papeleira',
+        responsible: 'Luciana Ferreira',
+      },
+      {
+        supplier: 'BRF S.A.',
+        status: 'pending',
+        amount: 7200000.0,
+        category: 'Food',
+        startDate: new Date('2024-07-01'),
+        endDate: new Date('2025-06-30'),
+        description: 'Fornecimento de produtos avícolas congelados',
+        responsible: 'Ricardo Moreira',
+      },
+      {
+        supplier: 'Klabin S.A.',
+        status: 'active',
+        amount: 6300000.0,
+        category: 'Packaging',
+        startDate: new Date('2024-05-01'),
+        endDate: new Date('2025-10-31'),
+        description: 'Fornecimento de embalagens de papelão corrugado',
+        responsible: 'Fernanda Lima',
+      },
+      {
+        supplier: 'Ultrapar Participações S.A.',
+        status: 'cancelled',
+        amount: 4100000.0,
+        category: 'Chemicals',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+        description: 'Fornecimento de produtos químicos especializados',
+        responsible: 'Roberto Cardoso',
+      },
+      {
+        supplier: 'WEG S.A.',
+        status: 'active',
+        amount: 11500000.0,
+        category: 'Industrial Equipment',
+        startDate: new Date('2024-03-15'),
+        endDate: new Date('2026-09-15'),
+        description:
+          'Fornecimento de motores elétricos e equipamentos industriais',
+        responsible: 'Gabriela Souza',
+      },
+      {
+        supplier: 'CSN - Companhia Siderúrgica Nacional',
+        status: 'active',
+        amount: 14200000.0,
+        category: 'Steel',
+        startDate: new Date('2024-08-01'),
+        endDate: new Date('2026-07-31'),
+        description:
+          'Fornecimento de chapas de aço galvanizado para automobilística',
+        responsible: 'Marcelo Freitas',
+      },
+      {
+        supplier: 'Braskem S.A.',
+        status: 'pending',
+        amount: 8900000.0,
+        category: 'Chemicals',
+        startDate: new Date('2024-09-15'),
+        endDate: new Date('2025-09-14'),
+        description: 'Fornecimento de resinas termoplásticas para embalagens',
+        responsible: 'Camila Rocha',
+      },
+      {
+        supplier: 'Natura & Co',
+        status: 'active',
+        amount: 3800000.0,
+        category: 'Cosmetics',
+        startDate: new Date('2024-06-01'),
+        endDate: new Date('2025-05-31'),
+        description: 'Desenvolvimento de linha sustentável de cosméticos',
+        responsible: 'Patricia Mendes',
+      },
+      {
+        supplier: 'Magazine Luiza S.A.',
+        status: 'completed',
+        amount: 2100000.0,
+        category: 'Retail Technology',
+        startDate: new Date('2023-03-01'),
+        endDate: new Date('2024-02-29'),
+        description: 'Sistema de gestão de marketplace e logística integrada',
+        responsible: 'André Martins',
+      },
+      {
+        supplier: 'Ambev S.A.',
+        status: 'active',
+        amount: 6700000.0,
+        category: 'Beverages',
+        startDate: new Date('2024-04-15'),
+        endDate: new Date('2025-12-15'),
+        description: 'Fornecimento de bebidas para eventos corporativos',
+        responsible: 'Juliana Castro',
+      },
+      {
+        supplier: 'Localiza Rent a Car',
+        status: 'active',
+        amount: 4500000.0,
+        category: 'Automotive',
+        startDate: new Date('2024-07-01'),
+        endDate: new Date('2026-06-30'),
+        description: 'Locação de frota corporativa para executivos',
+        responsible: 'Daniel Barbosa',
+      },
+      {
+        supplier: 'Telefônica Brasil S.A.',
+        status: 'pending',
+        amount: 13800000.0,
+        category: 'Telecommunications',
+        startDate: new Date('2024-10-01'),
+        endDate: new Date('2027-09-30'),
+        description: 'Modernização da infraestrutura de telecomunicações',
+        responsible: 'Renata Silva',
+      },
+      {
+        supplier: 'Cielo S.A.',
+        status: 'active',
+        amount: 2800000.0,
+        category: 'Financial Services',
+        startDate: new Date('2024-05-01'),
+        endDate: new Date('2025-04-30'),
+        description: 'Serviços de processamento de pagamentos eletrônicos',
+        responsible: 'Bruno Dias',
+      },
+      {
+        supplier: 'Copel - Companhia Paranaense de Energia',
+        status: 'active',
+        amount: 16500000.0,
+        category: 'Energy',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2026-12-31'),
+        description:
+          'Fornecimento de energia elétrica para complexo industrial',
+        responsible: 'Mariana Peixoto',
+      },
+      {
+        supplier: 'Lojas Americanas S.A.',
+        status: 'cancelled',
+        amount: 1900000.0,
+        category: 'Retail',
+        startDate: new Date('2024-02-01'),
+        endDate: new Date('2024-08-31'),
+        description: 'Programa de fidelidade e marketing digital',
+        responsible: 'Thiago Ribeiro',
+      },
+      {
+        supplier: 'CPFL Energia',
+        status: 'active',
+        amount: 19200000.0,
+        category: 'Energy',
+        startDate: new Date('2024-03-01'),
+        endDate: new Date('2027-02-28'),
+        description: 'Modernização de subestações e redes de distribuição',
+        responsible: 'Laura Gonçalves',
+      },
+      {
+        supplier: 'Banco do Brasil S.A.',
+        status: 'pending',
+        amount: 5600000.0,
+        category: 'Financial Services',
+        startDate: new Date('2024-11-01'),
+        endDate: new Date('2025-10-31'),
+        description: 'Serviços bancários corporativos e gestão de tesouraria',
+        responsible: 'Felipe Santos',
+      },
+      {
+        supplier: 'Eletrobras',
+        status: 'active',
+        amount: 22000000.0,
+        category: 'Energy',
+        startDate: new Date('2024-01-15'),
+        endDate: new Date('2028-01-14'),
+        description: 'Projeto de expansão de usina hidrelétrica',
+        responsible: 'Carla Fernandes',
+      },
+      {
+        supplier: 'Sabesp',
+        status: 'active',
+        amount: 18700000.0,
+        category: 'Water Treatment',
+        startDate: new Date('2024-06-15'),
+        endDate: new Date('2027-06-14'),
+        description: 'Sistema de tratamento de água e esgoto urbano',
+        responsible: 'Roberto Lima',
+      },
+      {
+        supplier: 'Tim Brasil S.A.',
+        status: 'completed',
+        amount: 7800000.0,
+        category: 'Telecommunications',
+        startDate: new Date('2023-05-01'),
+        endDate: new Date('2024-04-30'),
+        description: 'Implementação de rede 5G em áreas metropolitanas',
+        responsible: 'Vanessa Aragão',
+      },
+      {
+        supplier: 'Raízen S.A.',
+        status: 'active',
+        amount: 11300000.0,
+        category: 'Energy',
+        startDate: new Date('2024-08-15'),
+        endDate: new Date('2026-08-14'),
+        description: 'Fornecimento de etanol e combustíveis para frota',
+        responsible: 'Eduardo Campos',
+      },
+      {
+        supplier: 'CCR S.A.',
+        status: 'pending',
+        amount: 24500000.0,
+        category: 'Infrastructure',
+        startDate: new Date('2024-12-01'),
+        endDate: new Date('2029-11-30'),
+        description: 'Concessão de rodovia e serviços de pedágio',
+        responsible: 'Silvia Torres',
+      },
+      {
+        supplier: 'Banco Bradesco S.A.',
+        status: 'active',
+        amount: 4200000.0,
+        category: 'Financial Services',
+        startDate: new Date('2024-07-15'),
+        endDate: new Date('2025-07-14'),
+        description: 'Serviços de crédito corporativo e seguros empresariais',
+        responsible: 'Gustavo Moreira',
+      },
+      {
+        supplier: 'Gol Linhas Aéreas',
+        status: 'cancelled',
+        amount: 3600000.0,
+        category: 'Aviation',
+        startDate: new Date('2024-04-01'),
+        endDate: new Date('2024-09-30'),
+        description: 'Transporte aéreo corporativo e fretamento',
+        responsible: 'Monica Azevedo',
+      },
+      {
+        supplier: 'Itaú Unibanco S.A.',
+        status: 'active',
+        amount: 8400000.0,
+        category: 'Financial Services',
+        startDate: new Date('2024-09-01'),
+        endDate: new Date('2026-08-31'),
+        description: 'Soluções de pagamento digital e banking corporativo',
+        responsible: 'Alexandre Cunha',
+      },
+    ];
+
+    try {
+      await this.contractRepository.save(contracts);
+      console.log(
+        `✅ Seed executado com sucesso! ${contracts.length} contratos criados.`,
+      );
+    } catch (error) {
+      console.error('❌ Erro ao executar seed:', error);
+      throw error;
+    }
+  }
+}
