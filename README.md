@@ -1,23 +1,288 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📋 API de Gestão de Contratos - Teste MODEC
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Uma API RESTful robusta para gerenciamento de contratos desenvolvida com **NestJS**, **TypeORM** e **SQLite**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
+## 🚀 Tecnologias Utilizadas
+
+- **[NestJS](https://nestjs.com/)** - Framework Node.js progressivo
+- **[TypeORM](https://typeorm.io/)** - ORM para TypeScript e JavaScript
+- **[SQLite](https://www.sqlite.org/)** - Banco de dados relacional leve
+- **[Class Validator](https://github.com/typestack/class-validator)** - Validação de dados
+- **[Class Transformer](https://github.com/typestack/class-transformer)** - Transformação de objetos
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── app.module.ts              # Módulo principal da aplicação
+├── main.ts                    # Ponto de entrada da aplicação
+├── seed.ts                    # Script para popular o banco com dados
+├── infra/                     # Infraestrutura e configurações
+│   └── database/              
+│       ├── database.module.ts # Configuração do banco de dados
+│       ├── seed.module.ts     # Módulo para seeds
+│       └── seeds/             # Scripts de população do banco
+│           └── contract.seed.ts
+└── modules/                   # Módulos de negócio
+    └── contracts/             # Módulo de contratos
+        ├── contracts.controller.ts  # Controller REST
+        ├── contracts.service.ts     # Lógica de negócio
+        ├── contracts.module.ts      # Configuração do módulo
+        ├── dtos/                    # Data Transfer Objects
+        │   ├── create-contract.dto.ts
+        │   ├── update-contract.dto.ts
+        │   └── get-contracts.dto.ts
+        └── entity/                  # Entidades do banco
+            └── contract.entity.ts
+```
+
+## 🛠️ Pré-requisitos
+
+Antes de executar o projeto, certifique-se de ter instalado:
+
+- **Node.js** (versão 18+ recomendada)
+- **npm** ou **yarn**
+- **Git**
+
+## 📥 Instalação
+
+1. **Clone o repositório:**
+```bash
+git clone https://github.com/well-silva/teste-modec-api.git
+cd teste-modec-api
+```
+
+2. **Instale as dependências:**
+```bash
+npm install
+```
+
+## 🎯 Como Executar
+
+### 1. **Modo Desenvolvimento (com auto-reload)**
+```bash
+npm run start:dev
+```
+A aplicação estará disponível em: `http://localhost:3000`
+
+### 2. **Modo Produção**
+```bash
+# Build da aplicação
+npm run build
+
+# Executar em produção
+npm run start:prod
+```
+
+### 3. **Modo Debug**
+```bash
+npm run start:debug
+```
+
+## 🌱 Populando o Banco com Dados de Teste
+
+Execute o seed para criar 30 contratos de exemplo:
+
+```bash
+npm run seed
+```
+
+**Nota:** O seed só executa se o banco estiver vazio. Para repovoar, delete o arquivo `database.sqlite` e execute o comando novamente.
+
+## 📋 Funcionalidades da API
+
+### **Endpoints Disponíveis:**
+
+#### **📄 Listar Contratos**
+```http
+GET /contracts
+```
+
+**Query Parameters (todos opcionais):**
+- `page` - Número da página (padrão: 1)
+- `limit` - Itens por página (padrão: 10, máximo: 100)
+- `search` - Busca por texto (pesquisa em descrição, fornecedor e responsável)
+- `supplier` - Filtrar por fornecedor
+- `status` - Filtrar por status (`active`, `pending`, `completed`, `cancelled`)
+- `category` - Filtrar por categoria
+- `startDate` - Data de início (formato: YYYY-MM-DD)
+- `endDate` - Data de fim (formato: YYYY-MM-DD)
+
+**Exemplo:**
+```bash
+curl "http://localhost:3000/contracts?page=1&limit=5&status=active&search=petrobras"
+```
+
+#### **🔍 Buscar Contrato por ID**
+```http
+GET /contracts/:id
+```
+
+**Exemplo:**
+```bash
+curl http://localhost:3000/contracts/1
+```
+
+#### **➕ Criar Novo Contrato**
+```http
+POST /contracts
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "supplier": "Empresa Exemplo Ltda.",
+  "amount": 1500000,
+  "category": "Tecnologia",
+  "startDate": "2025-01-01",
+  "endDate": "2025-12-31",
+  "description": "Desenvolvimento de sistema de gestão empresarial",
+  "responsible": "João Silva"
+}
+```
+
+#### **✏️ Atualizar Contrato**
+```http
+PUT /contracts/:id
+Content-Type: application/json
+```
+
+**Body (todos os campos são opcionais):**
+```json
+{
+  "status": "active",
+  "amount": 2000000,
+  "responsible": "Maria Santos"
+}
+```
+
+#### **🗑️ Remover Contrato**
+```http
+DELETE /contracts/:id
+```
+
+## ✅ Validações Implementadas
+
+### **Campos Obrigatórios (POST):**
+- `supplier` - String (2-200 caracteres)
+- `amount` - Número positivo
+- `category` - String (2-100 caracteres)
+- `startDate` - Data no formato YYYY-MM-DD
+- `endDate` - Data no formato YYYY-MM-DD
+- `description` - String (10-1000 caracteres)
+- `responsible` - String (2-100 caracteres)
+
+### **Status Permitidos:**
+- `active` - Ativo
+- `pending` - Pendente
+- `completed` - Concluído
+- `cancelled` - Cancelado
+
+## 🧪 Testes
+
+```bash
+# Testes unitários
+npm run test
+
+# Testes em modo watch
+npm run test:watch
+
+# Testes de cobertura
+npm run test:cov
+
+# Testes end-to-end
+npm run test:e2e
+```
+
+## 📝 Scripts Disponíveis
+
+| Script | Descrição |
+|--------|-----------|
+| `npm run start` | Inicia a aplicação |
+| `npm run start:dev` | Inicia em modo desenvolvimento |
+| `npm run start:debug` | Inicia em modo debug |
+| `npm run start:prod` | Inicia em modo produção |
+| `npm run build` | Gera build de produção |
+| `npm run seed` | Popula o banco com dados de teste |
+| `npm run format` | Formata o código com Prettier |
+| `npm run lint` | Executa o ESLint |
+| `npm test` | Executa testes unitários |
+| `npm run test:e2e` | Executa testes end-to-end |
+
+## 🐛 Resolução de Problemas
+
+### **Erro: "Port 3000 already in use"**
+```bash
+# Use uma porta diferente
+PORT=3001 npm run start:dev
+```
+
+### **Erro: "Cannot find module"**
+```bash
+# Reinstale as dependências
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### **Banco de dados corrompido**
+```bash
+# Delete o banco e execute o seed novamente
+rm database.sqlite
+npm run seed
+```
+
+## 📊 Exemplos de Uso
+
+### **Buscar contratos ativos com paginação:**
+```bash
+curl "http://localhost:3000/contracts?status=active&page=1&limit=10"
+```
+
+### **Pesquisar por texto:**
+```bash
+curl "http://localhost:3000/contracts?search=petrobras"
+```
+
+### **Filtrar por categoria e período:**
+```bash
+curl "http://localhost:3000/contracts?category=Energy&startDate=2024-01-01&endDate=2024-12-31"
+```
+
+### **Criar contrato completo:**
+```bash
+curl -X POST http://localhost:3000/contracts 
+  -H "Content-Type: application/json" 
+  -d '{
+    "supplier": "Tech Solutions Ltda.",
+    "amount": 850000,
+    "category": "Tecnologia",
+    "startDate": "2025-03-01",
+    "endDate": "2025-08-31",
+    "description": "Desenvolvimento de aplicativo mobile para gestão de vendas",
+    "responsible": "Ana Paula Rodrigues"
+  }'
+```
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
+
+## 👨‍💻 Autor
+
+**Wellington Silva** - [GitHub](https://github.com/well-silva)
+
+---
+
+⭐ **Se este projeto foi útil para você, considere dar uma estrela no repositório!**
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
